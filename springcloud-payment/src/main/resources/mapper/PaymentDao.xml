@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+  namespace绑定了与之对应的接口,值是该接口的全限定名;这个参数有且只有一个
+-->
+<mapper namespace="com.hangyang.dao.PaymentDao">
+
+    <resultMap id="baseResultMap" type="com.hangyang.entity.PaymentEntity">
+        <id column="id" property="id"/>
+        <id column="serial" property="serial"/>
+    </resultMap>
+
+    <!--表名-->
+    <sql id="payment">
+      payment payment
+    </sql>
+
+    <!--表字段-->
+    <sql id="payment_filed">
+      id,
+      serial
+    </sql>
+
+    <insert id="save" parameterType="PaymentEntity" useGeneratedKeys="true" keyProperty="id">
+        insert into payment (serial) values (#{serial})
+    </insert>
+
+    <select id="info" parameterType="Long" resultMap="baseResultMap" >
+        select <include refid="payment_filed"/> from <include refid="payment"/>
+        where payment.id = #{id}
+    </select>
+</mapper>
